@@ -38,11 +38,23 @@ public class RestaurantController {
 		return persistedRestaurant;
 	}
 	
-	@PostMapping("/search")
+	/*@PostMapping("/search")
 	public Restaurant searchRestaurant(@RequestParam("Name") String name,@RequestParam("Address") String address)
 	{
 		Restaurant persistedRestaurant=restaurantRepository.findByNameAndAddress(name, address);
 		return persistedRestaurant;
+	}*/
+	@PostMapping("/addItem")
+	public Items addItem(@RequestBody Items item)
+	{
+		Items persistedItems=itemsRepository.save(item);
+		return persistedItems;
+	}
+	
+	@GetMapping("/getAllItems")
+	public List<Items> getAllItems() {
+		List <Items> listofitems=itemsRepository.findAll();
+		return listofitems;
 	}
 	
 	
