@@ -9,6 +9,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 		templateUrl : 'restaurant.html',
 		controller : 'restaurantCtrl'
 	});
+	$routeProvider.when('/user', {
+		templateUrl : 'user.html',
+		controller : 'userCtrl'
+	});
 	$routeProvider.when('/items', {
 		templateUrl : 'items.html',
 		controller : 'itemsCtrl'
@@ -17,6 +21,26 @@ app.config([ '$routeProvider', function($routeProvider) {
 		redirectTo : '/home'
 	});
 } ]);
+
+
+app.controller("userCtrl", function($scope, $http) {
+	
+	$scope.saveUser = function() {
+		$http({
+			method : 'POST',
+			url : 'http://localhost:8085/user/add',
+			headers: { 'Content-Type': 'application/json' },
+			data:$scope.user
+		}).success(function(data, status) {
+			console.log(data);
+			$scope.fetchUser();
+			$scope.users = data;
+		}).error(function(data, status) {
+			$scope.status = status;
+			$scope.data = "Request failed";
+		});
+	};
+});
 
 app.controller("restaurantCtrl", function($scope, $http) {
 
@@ -33,8 +57,8 @@ app.controller("restaurantCtrl", function($scope, $http) {
 			$scope.data = "Request failed";
 		});
 	};
-	
-	
+
+		
 	$scope.saveRestaurant = function() {
 		$http({
 			method : 'POST',
